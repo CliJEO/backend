@@ -1,17 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const programmingLanguagesController = require("../controllers/programmingLanguages.controller");
+const adminController = require("../controllers/admin.controller");
+import { verifyAdminToken as auth } from "../middlewares/auth";
 
-/* GET programming languages. */
-router.get("/", programmingLanguagesController.get);
+router.post("/login", adminController.login);
 
-/* POST programming language */
-router.post("/", programmingLanguagesController.create);
-
-/* PUT programming language */
-router.put("/:id", programmingLanguagesController.update);
-
-/* DELETE programming language */
-router.delete("/:id", programmingLanguagesController.remove);
+router.post("/create", auth, adminController.create);
 
 module.exports = router;

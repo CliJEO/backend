@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "add-admin": "node scripts/add-admin.js"
   },
   "author": "",
   "license": "ISC",

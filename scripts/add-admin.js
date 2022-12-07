@@ -5,7 +5,7 @@ if (process.argv[2] === "--help" || process.argv[2] === "-h") {
 const email = process.argv[2];
 const name = process.argv[3] || "CliJEO Admin";
 
-if (!email || !name) {
+if (!/\S+@\S+\.\S+/.test(email) || !name) {
   console.log("Please enter email and name.");
   process.exit(0);
 }

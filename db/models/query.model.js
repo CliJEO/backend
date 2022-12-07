@@ -10,7 +10,6 @@ module.exports = (sequelize) => {
         allowNull: false,
         type: DataTypes.STRING,
       },
-      // media [hasMany media]
       closed: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
