@@ -20,6 +20,10 @@ module.exports = (sequelize) => {
         allowNull: true,
         type: DataTypes.STRING,
       },
+      deviceToken: {
+        allowNull: true,
+        type: DataTypes.STRING,
+      },
     },
     { timestamps: false }
   );

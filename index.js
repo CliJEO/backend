@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/user", require("./routes/user.route"));
-// app.use("/admin", require("./routes/admin.route"));
+app.use("/admin", require("./routes/admin.route"));
 // app.use("/query", require("./routes/query.route"));
 
 /* Error handler middleware */

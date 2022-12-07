@@ -22,11 +22,38 @@ async function login(req, res) {
   if (!dbAdmin) {
     return res.status(401).json({ message: "Invalid admin" });
   }
+  if (!dbAdmin.name) {
+    dbAdmin.name = payload.name || "CliJEO Admin";
+    await dbAdmin.save();
+  }
   return res.json({
     jwt: generateAdminToken(adminEmail),
   });
 }
 
-async function create(req, res) {}
+async function create(req, res) {
+  const email = req.body.email;
+  const name = req.body.name;
 
-module.exports = { login, create };
+  if (!/\S+@\S+\.\S+/.test(email)) {
+    return res.status(400).json({ message: "Invalid email provided" });
+  }
+  try {
+    await admin.create({ email, name: name || undefined });
+  } catch (err) {
+    return res.status(500).json({ message: "Admin creation failed", more: err.message });
+  }
+  return res.json({ ok: true });
+}
+
+async function update(req, res) {
+  const name = req.body.name;
+  if (!name) {
+    return res.status(401).json({ message: "Invalid name" });
+  }
+  req.admin.name = name;
+  await req.admin.save();
+  return res.json({ ok: true });
+}
+
+module.exports = { login, create, update };

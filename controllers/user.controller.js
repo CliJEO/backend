@@ -18,32 +18,39 @@ async function login(req, res) {
   const payload = ticket.getPayload();
   const userId = payload.sub;
 
-  const dbUser = await user.findByPk(userId);
-  const firstLogin = !dbUser;
-
-  if (firstLogin) {
-    const userObj = {
-      id: userId,
-      name: payload.name,
-      email: payload.email,
-      profilePicture: payload.picture,
-    };
-    try {
-      await user.create(userObj);
-    } catch (err) {
-      return res.status(401).json({ message: err.message });
-    }
+  try {
+    // const dbUser = await user.findByPk(userId);
+    const [_, firstLogin] = await user.findOrCreate({
+      where: {
+        id: userId,
+      },
+      defaults: {
+        name: payload.name,
+        email: payload.email,
+        profilePicture: payload.picture,
+      },
+    });
+    return res.json({
+      firstLogin,
+      jwt: generateUserToken(userId),
+    });
+  } catch (err) {
+    return res.status(401).json({ message: err.message });
   }
-  return res.json({
-    firstLogin,
-    jwt: generateUserToken(userId),
-  });
 }
 
 async function me(req, res) {
   return res.json(req.user);
 }
 
-async function update(req, res) {}
+async function update(req, res) {
+  const name = req.body.name;
+  if (!name) {
+    return res.status(401).json({ message: "Invalid name" });
+  }
+  req.user.name = name;
+  await req.user.save();
+  return res.json({ ok: true });
+}
 
 module.exports = { login, me, update };
