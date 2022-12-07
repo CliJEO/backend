@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const queryController = require("../controllers/media.controller");
+const mediaController = require("../controllers/media.controller");
 import { verifyUserToken as userAuth } from "../middlewares/auth";
+const upload = require("../config/multer");
 
+router.post("/upload", userAuth, upload.single("file"), mediaController.upload);
 router.get("/:id", userAuth, mediaController.getOne);
-router.post("/upload", userAuth, mediaController.upload);
 router.delete("/:id", userAuth, mediaController.delete);
 
 module.exports = router;
