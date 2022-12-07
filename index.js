@@ -18,9 +18,9 @@ app.get("/", (req, res) => {
   res.send("<h1>Who lives in a pineapple under the sea?</h1>");
 });
 
+app.use("/user", require("./routes/user.route"));
 // app.use("/admin", require("./routes/admin.route"));
 // app.use("/query", require("./routes/query.route"));
-// app.use("/user", require("./routes/user.route"));
 
 /* Error handler middleware */
 app.use((err, req, res, next) => {

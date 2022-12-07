@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const userController = require("../controllers/user.controller");
-import { verifyUserToken as userAuth } from "../middlewares/auth";
+const userAuth = require("../middlewares/auth").verifyUserToken;
 
 router.post("/login", userController.login);
 

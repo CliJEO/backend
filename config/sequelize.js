@@ -7,7 +7,7 @@ const sequelize = new Sequelize({
   dialect: "sqlite",
   storage: "example-db.sqlite",
   logQueryParameters: true,
-  benchmark: true,
+  logging: false,
 });
 
 // const sequelize = new Sequelize(process.env.DB_NAME, process.env.PG_USERNAME, process.env.PG_PASSWORD, {

@@ -1,18 +1,19 @@
-import jwt from "jsonwebtoken";
-import sequelize from "../db";
+const jwt = require("jsonwebtoken");
+const sequelize = require("../db");
+const { decodeUserToken, decodeAdminToken } = require("../utils/tokenHandler");
 
 async function verifyUserToken(req, res, next) {
-  const tokenHeader = req.headers["Authorization"];
+  const tokenHeader = req.headers.authorization;
   if (!tokenHeader) {
     return res.status(400).send({ message: "Token is not provided" });
   }
   const token = tokenHeader.split(" ")[1];
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const userId = decodeUserToken(token);
 
     // verify user in db
-    const user = sequelize.models.user.findByPk(decoded.userId);
+    const user = await sequelize.models.user.findByPk(userId);
 
     if (!user) {
       return res.status(400).send({ message: "Invalid Token" });
@@ -26,17 +27,17 @@ async function verifyUserToken(req, res, next) {
 }
 
 async function verifyAdminToken(req, res, next) {
-  const tokenHeader = req.headers["Authorization"];
+  const tokenHeader = req.headers.authorization;
   if (!tokenHeader) {
     return res.status(400).send({ message: "Token is not provided" });
   }
   const token = tokenHeader.split(" ")[1];
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const adminEmail = decodeAdminToken(token);
 
     // verify admin in db
-    const admin = sequelize.models.admin.findByPk(decoded.adminEmail);
+    const admin = await sequelize.models.admin.findByPk(adminEmail);
 
     if (!admin) {
       return res.status(400).send({ message: "Invalid Token" });
