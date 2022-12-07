@@ -13,11 +13,10 @@ const allowedExtensions = [".png", ".jpg", ".jpeg", ".mp4", ".mkv", ".mp3", ".aa
 const fileFilter = (req, file, cb) => {
   const ext = path.extname(file.originalname);
   if (allowedExtensions.includes(ext)) {
-    cb(null, true);
+    return cb(null, true);
   }
 
-  // To reject this file pass `false`, like so:
-  cb(new Error("Invalid filetype"), false);
+  return cb(new Error("Invalid filetype"), false);
 };
 
 const limits = {
