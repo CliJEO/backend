@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "dev": "nodemon index.js",
     "add-admin": "node scripts/add-admin.js",
-    "dev": "nodemon index.js"
+    "delete-media": "node scripts/delete-media.js"
   },
   "author": "",
   "license": "ISC",
