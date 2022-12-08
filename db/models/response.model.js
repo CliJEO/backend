@@ -5,13 +5,12 @@ module.exports = (sequelize) => {
     "response",
     {
       // id
-      // parentId [belongsTo User],
+      // parentId [belongsTo Query],
       content: {
         allowNull: false,
         type: DataTypes.STRING,
       },
-      // adminResponder [hasOne nullable]
-      // the admin who responds to it. is null if it's the user response
+      // adminResponder (the admin who responds to it. is null if it's the user response)
     },
     {
       createdAt: "timestamp",

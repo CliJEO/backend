@@ -149,10 +149,47 @@ name: "optional name parameter"
 </tr>
 <tr>
 <td>GET /:id</td>
-<td>get all the details about a query including responses and media</td>
+<td>get all the details about a query including responses(sorted in order) and media</td>
 <td>User</td>
 <td>NA</td>
-<td>TODO</td>
+<td>
+
+```json
+{
+  "id": 3,
+  "title": "Bruhtacular the second",
+  "content": "i like mayo",
+  "closed": false,
+  "timestamp": 1670490412480,
+  "user": {
+    "name": "Doubtful Baby",
+    "avatar": "https://lh3.googleusercontent.com/a/AEdFTp41ujok5WxbmKFWDZOWpmbb9xcXcL_4ixUD8pbfnQ=s96-c"
+  },
+  "media": [
+    {
+      "url": "/media/1670490412464.png"
+    }
+  ],
+  "responses": [
+    {
+      "content": "have you tried turning it on and off?",
+      "timestamp": 1670499746135,
+      "admin": {
+        "name": "Cliford Joshy",
+        "avatar": "https://lh3.googleusercontent.com/a/AEdFTp41ujok5WxbmKFWDZOWpmbb9xcXcL_4ixUD8pbfnQ=s96-c"
+      }
+    },
+    {
+      "content": "i did try that",
+      "timestamp": 1670499769238
+    }
+  ]
+}
+```
+
+**the admin responses will have the admin field**
+
+</td>
 </tr>
 <tr>
 <td>GET /:id/admin</td>
@@ -189,6 +226,30 @@ name: "optional name parameter"
 <td>An admin can close an open query</td>
 <td>Admin</td>
 <td>Nothing</td>
+<td>ok:true</td>
+</tr>
+
+<tr>
+<td>POST /respond/:queryId/admin</td>
+<td>An admin can respond to an open query</td>
+<td>Admin</td>
+<td>
+
+```json
+{
+  "content": "do you even?"
+}
+```
+
+</td>
+<td>ok:true</td>
+</tr>
+
+<tr>
+<td>POST /respond/:queryId/user</td>
+<td>A user can respond to an open query</td>
+<td>User</td>
+<td>same as above</td>
 <td>ok:true</td>
 </tr>
 </table>

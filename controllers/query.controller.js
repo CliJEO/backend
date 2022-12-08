@@ -83,27 +83,25 @@ async function getOne(req, res) {
   const adminResponders = {};
   for (const r of responses) {
     if (r.adminResponder && !adminResponders[r]) {
-      adminResponders[r] = await sequelize.models.admin.findByPk(r.adminResponder, { raw: true });
+      adminResponders[r.adminResponder] = await sequelize.models.admin.findByPk(r.adminResponder, { raw: true });
     }
   }
 
   const blownResponses = responses.map((r) => {
     const isAdmin = !!r.adminResponder;
-    const responder = isAdmin ? adminResponders[r.adminResponder] : user;
+    const responder = adminResponders[r.adminResponder];
 
     return {
-      content,
+      content: r.content,
       timestamp: new Date(r.timestamp).getTime(),
-      author: {
-        isAdmin,
-        name: responder.name,
-        avatar: responder.profilePicture,
-      },
+      admin: isAdmin ? { name: responder.name, avatar: responder.profilePicture } : undefined,
     };
   });
 
   return res.json({
     ...query,
+    userId: undefined,
+    user: { name: user.name, avatar: user.profilePicture },
     timestamp: new Date(query.timestamp).getTime(),
     media: media.map((m) => ({ url: `/media/${m.filename}` })),
     responses: blownResponses,

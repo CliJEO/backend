@@ -16,6 +16,7 @@ app.use("/user", require("./routes/user.route"));
 app.use("/admin", require("./routes/admin.route"));
 app.use("/query", require("./routes/query.route"));
 app.use("/media", require("./routes/media.route"));
+app.use("/respond", require("./routes/response.route"));
 
 /* Error handler middleware */
 app.use((err, req, res, next) => {
