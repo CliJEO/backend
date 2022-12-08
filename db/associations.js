@@ -6,8 +6,8 @@ function applyAssociations(sequelize) {
   response.belongsTo(query, { foreignKey: "parentId" });
   response.belongsTo(admin, { foreignKey: "adminResponder", allowNull: true });
 
-  media.belongsTo(query, { allowNull: true });
-  media.belongsTo(response, { allowNull: true });
+  media.belongsTo(query, { allowNull: false });
+  // media.belongsTo(response, { allowNull: true });
 }
 
 module.exports = { applyAssociations };

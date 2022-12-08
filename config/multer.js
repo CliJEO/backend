@@ -8,7 +8,21 @@ const storage = multer.diskStorage({
   },
 });
 
-const allowedExtensions = [".png", ".jpg", ".jpeg", ".mp4", ".mkv", ".mp3", ".aac", ".ogg", ".webm"];
+const allowedExtensions = [
+  ".png",
+  ".jpg",
+  ".jpeg",
+  ".mp4",
+  ".mkv",
+  ".mp3",
+  ".aac",
+  ".ogg",
+  ".webm",
+  ".pdf",
+  ".doc",
+  ".docx",
+  ".odt",
+];
 
 const fileFilter = (req, file, cb) => {
   const ext = path.extname(file.originalname);
@@ -20,7 +34,7 @@ const fileFilter = (req, file, cb) => {
 };
 
 const limits = {
-  fileSize: 50 * 1024, // 50 MB
+  fileSize: 50 * 1024 * 1024, // 50 MB
 };
 
 const upload = multer({ storage, fileFilter, limits });

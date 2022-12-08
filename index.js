@@ -1,18 +1,12 @@
 require("dotenv").config();
 const express = require("express");
-const bodyParser = require("body-parser");
 const logger = require("morgan");
 const app = express();
 const sequelize = require("./db");
 const port = process.env.PORT || 3000;
 
 app.use(logger("dev"));
-app.use(bodyParser.json());
-// app.use(
-//   bodyParser.urlencoded({
-//     extended: true,
-//   })
-// );
+app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("<h1>Who lives in a pineapple under the sea?</h1>");
@@ -20,7 +14,8 @@ app.get("/", (req, res) => {
 
 app.use("/user", require("./routes/user.route"));
 app.use("/admin", require("./routes/admin.route"));
-// app.use("/query", require("./routes/query.route"));
+app.use("/query", require("./routes/query.route"));
+app.use("/media", require("./routes/media.route"));
 
 /* Error handler middleware */
 app.use((err, req, res, next) => {

@@ -8,6 +8,7 @@ if (!/\S+@\S+\.\S+/.test(email)) {
   process.exit(0);
 }
 
+require("dotenv").config();
 const sequelize = require("../db");
 sequelize.models.admin
   .create({ email, name: name })

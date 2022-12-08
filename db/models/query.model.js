@@ -6,6 +6,10 @@ module.exports = (sequelize) => {
     {
       // id
       // userId [belongsTo User],
+      title: {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
       content: {
         allowNull: false,
         type: DataTypes.STRING,

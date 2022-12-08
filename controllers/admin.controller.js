@@ -26,6 +26,12 @@ async function login(req, res) {
     dbAdmin.name = payload.name || "CliJEO Admin";
     await dbAdmin.save();
   }
+
+  if (!dbAdmin.profilePicture) {
+    dbAdmin.profilePicture = payload.picture;
+    await dbAdmin.save();
+  }
+
   return res.json({
     jwt: generateAdminToken(adminEmail),
   });

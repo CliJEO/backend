@@ -1,15 +1,16 @@
 const express = require("express");
 const router = express.Router();
 const queryController = require("../controllers/query.controller");
-import { verifyAdminToken as adminAuth, verifyUserToken as userAuth } from "../middlewares/auth";
+const { verifyAdminToken: adminAuth, verifyUserToken: userAuth } = require("../middlewares/auth");
+const multer = require("../config/multer");
 
 // Admin Endpoints
+router.get("/admin/pending", adminAuth, queryController.getPending);
 router.get("/:id/admin", adminAuth, queryController.getOne);
-router.get("/pending/admin", adminAuth, queryController.getPending);
-router.post("/:id/close/admin", adminAuth, queryController.close);
+router.post("/admin/close/:id", adminAuth, queryController.close);
 
 // User Endpoints
+router.post("/create", userAuth, multer.array("files", 4), queryController.create);
 router.get("/:id", userAuth, queryController.getOne);
-router.post("/create", queryController.create);
 
 module.exports = router;
