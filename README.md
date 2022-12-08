@@ -253,3 +253,8 @@ name: "optional name parameter"
 <td>ok:true</td>
 </tr>
 </table>
+
+## Fetching Media
+
+- /media/filename with userToken
+- /media/filename/admin with adminToken
