@@ -5,7 +5,7 @@ module.exports = (sequelize) => {
     "response",
     {
       // id
-      // parentId [belongsTo Query],
+      // queryId [belongsTo Query],
       content: {
         allowNull: false,
         type: DataTypes.STRING,

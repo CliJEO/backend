@@ -23,7 +23,7 @@ async function userCreate(req, res) {
   }
 
   await sequelize.models.response.create({
-    parentId: queryId,
+    queryId,
     content,
     adminResponder: null,
   });
@@ -48,9 +48,9 @@ async function adminCreate(req, res) {
   if (query.closed) {
     return res.status(401).json({ message: "Cannot respond to a closed query" });
   }
-  console.log(req.admin);
+
   await sequelize.models.response.create({
-    parentId: queryId,
+    queryId,
     content,
     adminResponder: req.admin.email,
   });

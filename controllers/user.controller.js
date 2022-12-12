@@ -43,7 +43,7 @@ async function me(req, res) {
   const user = req.user;
   const userQueries = await sequelize.models.query.findAll({ where: { userId: user.id }, raw: true });
   for (const query of userQueries) {
-    query.responseCount = await sequelize.models.response.count({ where: { parentId: query.id } });
+    query.responseCount = await sequelize.models.response.count({ where: { queryId: query.id } });
     delete query.userId;
   }
 

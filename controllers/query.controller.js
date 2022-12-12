@@ -19,29 +19,16 @@ async function create(req, res) {
 
   let query;
   try {
-    query = await sequelize.models.query.create({
-      userId: user.id,
-      title,
-      content,
-    });
-
-    await sequelize.models.media.bulkCreate(
-      files.map(
-        (file) => ({
-          filename: file.filename,
-          queryId: query.id,
-        }),
-        { validate: true }
-      )
+    query = await sequelize.models.query.create(
+      {
+        userId: user.id,
+        title,
+        content,
+        media: files.map(({ filename }) => ({ filename })),
+      },
+      { include: [sequelize.models.media] }
     );
   } catch (err) {
-    if (query) {
-      for (const file of req.files) {
-        await unlinkAsync(file.path);
-      }
-      await sequelize.models.media.destroy({ where: { queryId: query.id } });
-    }
-
     return res.status(500).json({ message: err.message });
   }
 
@@ -59,79 +46,38 @@ async function close(req, res) {
 }
 
 async function getOne(req, res) {
-  const query = await sequelize.models.query.findByPk(req.params.id, { raw: true });
+  const query = await sequelize.models.query.findByPk(req.params.id, {
+    include: [
+      { model: sequelize.models.media, attributes: ["filename"] },
+      { model: sequelize.models.user, attributes: ["name", "profilePicture"] },
+      {
+        model: sequelize.models.response,
+        attributes: ["content", "timestamp"],
+        order: [["timestamp", "ASC"]],
+        include: {
+          model: sequelize.models.admin,
+          attributes: ["name", "profilePicture"],
+        },
+      },
+    ],
+  });
 
   if (!(query && (req.admin || req.user.id == query.userId))) {
     return res.status(400).json({ message: "Cannot access this query" });
   }
 
-  const user = req.user || (await sequelize.models.user.findByPk(query.userId), { raw: true });
-
-  const media = await sequelize.models.media.findAll({
-    where: { queryId: query.id },
-    attributes: ["filename"],
-    raw: true,
-  });
-
-  const responses = await sequelize.models.response.findAll({
-    where: { parentId: query.id },
-    attributes: ["content", "adminResponder", "timestamp"],
-    order: [["timestamp", "ASC"]],
-    raw: true,
-  });
-
-  const adminResponders = {};
-  for (const r of responses) {
-    if (r.adminResponder && !adminResponders[r]) {
-      adminResponders[r.adminResponder] = await sequelize.models.admin.findByPk(r.adminResponder, { raw: true });
-    }
-  }
-
-  const blownResponses = responses.map((r) => {
-    const isAdmin = !!r.adminResponder;
-    const responder = adminResponders[r.adminResponder];
-
-    return {
-      content: r.content,
-      admin: isAdmin ? { name: responder.name, avatar: responder.profilePicture } : undefined,
-    };
-  });
-
-  return res.json({
-    ...query,
-    userId: undefined,
-    user: { name: user.name, avatar: user.profilePicture },
-    media: media.map((m) => ({ url: `/media/${m.filename}` })),
-    responses: blownResponses,
-  });
+  return res.json(query.get({ plain: true }));
 }
 
 async function getPending(req, res) {
   const pendingQueries = await sequelize.models.query.findAll({
-    attributes: ["id", "title", "timestamp", "userId"],
+    attributes: ["id", "title", "timestamp"],
     where: { closed: false },
     order: [["timestamp", "DESC"]],
-    raw: true,
+    include: { model: sequelize.models.user, attributes: ["name", "profilePicture"] },
   });
 
-  const users = {};
-
-  for (const q of pendingQueries) {
-    if (!users[q.userId]) {
-      users[q.userId] = await sequelize.models.user.findByPk(q.userId, {
-        attributes: ["name", ["profilePicture", "avatar"]],
-        raw: true,
-      });
-    }
-  }
-
-  return res.json(
-    pendingQueries.map((q) => ({
-      ...q,
-      userId: undefined,
-      user: users[q.userId],
-    }))
-  );
+  return res.json(pendingQueries.map((q) => q.get({ plain: true })));
 }
 
 module.exports = { create, close, getOne, getPending };

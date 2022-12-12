@@ -1,12 +1,17 @@
 function applyAssociations(sequelize) {
   const { query, user, media, response, admin } = sequelize.models;
 
+  user.hasMany(query);
   query.belongsTo(user);
 
-  response.belongsTo(query, { foreignKey: "parentId" });
+  query.hasMany(response);
+  response.belongsTo(query);
+
+  query.hasMany(media);
+  media.belongsTo(query, { allowNull: false });
+
   response.belongsTo(admin, { foreignKey: "adminResponder", allowNull: true });
 
-  media.belongsTo(query, { allowNull: false });
   // media.belongsTo(response, { allowNull: true });
 }
 
