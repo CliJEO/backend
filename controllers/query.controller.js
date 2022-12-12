@@ -93,7 +93,6 @@ async function getOne(req, res) {
 
     return {
       content: r.content,
-      timestamp: new Date(r.timestamp).getTime(),
       admin: isAdmin ? { name: responder.name, avatar: responder.profilePicture } : undefined,
     };
   });
@@ -102,7 +101,6 @@ async function getOne(req, res) {
     ...query,
     userId: undefined,
     user: { name: user.name, avatar: user.profilePicture },
-    timestamp: new Date(query.timestamp).getTime(),
     media: media.map((m) => ({ url: `/media/${m.filename}` })),
     responses: blownResponses,
   });
@@ -130,7 +128,6 @@ async function getPending(req, res) {
   return res.json(
     pendingQueries.map((q) => ({
       ...q,
-      timestamp: new Date(q.timestamp).getTime(),
       userId: undefined,
       user: users[q.userId],
     }))

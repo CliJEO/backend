@@ -13,7 +13,7 @@ async function verifyUserToken(req, res, next) {
     const userId = decodeUserToken(token);
 
     // verify user in db
-    const user = await sequelize.models.user.findByPk(userId);
+    const user = await sequelize.models.user.findByPk(userId, { raw: true });
 
     if (!user) {
       return res.status(400).send({ message: "Invalid Token" });
@@ -37,7 +37,7 @@ async function verifyAdminToken(req, res, next) {
     const adminEmail = decodeAdminToken(token);
 
     // verify admin in db
-    const admin = await sequelize.models.admin.findByPk(adminEmail);
+    const admin = await sequelize.models.admin.findByPk(adminEmail, { raw: true });
 
     if (!admin) {
       return res.status(400).send({ message: "Invalid Token" });

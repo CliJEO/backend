@@ -85,14 +85,19 @@ name: "optional name parameter"
 
 <tr>
 <td>PUT /user/update</td>
-<td>Allows a user to edit their name</td>
+<td>Allows a user to edit their details</td>
 <td>User</td>
 <td>
 
 ```js
 {
-  name: "some name";
+  name: "some name",
+  "age": 10,
+  "gender": "male/female/other",
+  "phoneNumber": "string",
+  "location": "string",
 }
+all parameters are optional
 ```
 
 </td>
@@ -148,7 +153,7 @@ name: "optional name parameter"
 <td>ok:true</td>
 </tr>
 <tr>
-<td>GET /:id</td>
+<td>GET /query/:id</td>
 <td>get all the details about a query including responses(sorted in order) and media</td>
 <td>User</td>
 <td>NA</td>
@@ -160,7 +165,7 @@ name: "optional name parameter"
   "title": "Bruhtacular the second",
   "content": "i like mayo",
   "closed": false,
-  "timestamp": 1670490412480,
+  "timestamp": "2022-12-12T08:30:57.834Z",
   "user": {
     "name": "Doubtful Baby",
     "avatar": "https://lh3.googleusercontent.com/a/AEdFTp41ujok5WxbmKFWDZOWpmbb9xcXcL_4ixUD8pbfnQ=s96-c"
@@ -173,7 +178,7 @@ name: "optional name parameter"
   "responses": [
     {
       "content": "have you tried turning it on and off?",
-      "timestamp": 1670499746135,
+      "timestamp": "2022-12-12T08:30:57.834Z",
       "admin": {
         "name": "Cliford Joshy",
         "avatar": "https://lh3.googleusercontent.com/a/AEdFTp41ujok5WxbmKFWDZOWpmbb9xcXcL_4ixUD8pbfnQ=s96-c"
@@ -181,7 +186,7 @@ name: "optional name parameter"
     },
     {
       "content": "i did try that",
-      "timestamp": 1670499769238
+      "timestamp": "2022-12-12T08:30:57.834Z"
     }
   ]
 }
@@ -192,7 +197,7 @@ name: "optional name parameter"
 </td>
 </tr>
 <tr>
-<td>GET /:id/admin</td>
+<td>GET query/:id/admin</td>
 <td>same as above but with admin auth</td>
 <td>Admin</td>
 <td>none</td>
@@ -210,13 +215,45 @@ name: "optional name parameter"
   {
     "id": 5,
     "title": "Bruhtacular the second",
-    "timestamp": 1670490498120,
+    "timestamp": "2022-12-12T08:30:57.834Z",
     "user": {
       "name": "Cliford Joshy",
       "avatar": "https://lh3.googleusercontent.com/a/AEdFTp41ujok5WxbmKFWDZOWpmbb9xcXcL_4ixUD8pbfnQ=s96-c"
     }
   }
 ]
+```
+
+</td>
+</tr>
+<tr>
+<td>GET /user/me</td>
+<td>get all the details about a user including queries</td>
+<td>User</td>
+<td>NA</td>
+<td>
+
+```json
+{
+  "id": "109761649576168914913",
+  "name": "Cliford Joshy",
+  "email": "clifordjo@gmail.com",
+  "profilePicture": "https://lh3.googleusercontent.com/a/AEdFTp41ujok5WxbmKFWDZOWpmbb9xcXcL_4ixUD8pbfnQ=s96-c",
+  "age": null,
+  "gender": null,
+  "phoneNumber": null,
+  "location": null,
+  "queries": [
+    {
+      "id": 1,
+      "title": "Test Query",
+      "content": "lorem ipsum dolor set amet",
+      "closed": false,
+      "timestamp": "2022-12-12T08:30:57.834Z",
+      "responseCount": 0
+    }
+  ]
+}
 ```
 
 </td>

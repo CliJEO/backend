@@ -57,8 +57,8 @@ async function update(req, res) {
   if (!name) {
     return res.status(401).json({ message: "Invalid name" });
   }
-  req.admin.name = name;
-  await req.admin.save();
+  await sequelize.models.admin.update({ name: name }, { where: { email: req.admin.email } });
+
   return res.json({ ok: true });
 }
 

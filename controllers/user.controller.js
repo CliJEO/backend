@@ -40,16 +40,33 @@ async function login(req, res) {
 }
 
 async function me(req, res) {
-  return res.json(req.user);
+  const user = req.user;
+  const userQueries = await sequelize.models.query.findAll({ where: { userId: user.id }, raw: true });
+  for (const query of userQueries) {
+    query.responseCount = await sequelize.models.response.count({ where: { parentId: query.id } });
+    delete query.userId;
+  }
+
+  const userObj = {
+    ...req.user,
+    deviceToken: undefined,
+    queries: userQueries,
+  };
+  return res.json(userObj);
 }
 
 async function update(req, res) {
-  const name = req.body.name;
-  if (!name) {
-    return res.status(401).json({ message: "Invalid name" });
-  }
-  req.user.name = name;
-  await req.user.save();
+  const { name, gender, phoneNumber, location, age } = req.body;
+
+  const userUpdates = {};
+  if (name) userUpdates.name = name;
+  if (gender) userUpdates.gender = gender;
+  if (phoneNumber) userUpdates.phoneNumber = phoneNumber;
+  if (location) userUpdates.location = location;
+  if (age) userUpdates.age = age;
+
+  await sequelize.models.user.update(userUpdates, { where: { id: req.user.id } });
+
   return res.json({ ok: true });
 }
 

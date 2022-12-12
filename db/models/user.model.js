@@ -24,6 +24,22 @@ module.exports = (sequelize) => {
         allowNull: true,
         type: DataTypes.STRING,
       },
+      age: {
+        allowNull: true,
+        type: DataTypes.INTEGER,
+      },
+      gender: {
+        allowNull: true,
+        type: DataTypes.ENUM("male", "female", "other"),
+      },
+      phoneNumber: {
+        allowNull: true,
+        type: DataTypes.STRING,
+      },
+      location: {
+        allowNull: true,
+        type: DataTypes.STRING,
+      },
     },
     { timestamps: false }
   );
