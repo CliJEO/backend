@@ -30,7 +30,15 @@ module.exports = (sequelize) => {
       },
       gender: {
         allowNull: true,
-        type: DataTypes.ENUM("male", "female", "other"),
+        type: DataTypes.STRING,
+        validate: {
+          customValidator: (value) => {
+            const enums = ["male", "female", "other"];
+            if (!enums.includes(value)) {
+              throw new Error(value + " is not a valid gender");
+            }
+          },
+        },
       },
       phoneNumber: {
         allowNull: true,

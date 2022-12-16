@@ -1,5 +1,17 @@
 # Backend Documentation
 
+## Running It 🏃
+
+1. Either install postgres or [setup the postgresql docker container](https://hevodata.com/learn/docker-postgresql/)(this is what I do)
+
+1. Create a DB by accessing the `psql` shell. The default postgres user is `postgres`.
+
+1. Replicate the `.env.example` file as `.env`. Edit `PG_USERNAME`, `PG_PASSWORD` and `DB_NAME` with what you created.
+
+1. You can specify `MEDIA_DIR` (where the media will be stored)
+
+1. Then the usual drill. `npm install` and then `npm run dev` to start a dev instance
+
 ## Profile Endpoints
 
 <table>

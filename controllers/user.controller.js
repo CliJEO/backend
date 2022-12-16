@@ -65,7 +65,11 @@ async function update(req, res) {
   if (location) userUpdates.location = location;
   if (age) userUpdates.age = age;
 
-  await sequelize.models.user.update(userUpdates, { where: { id: req.user.id } });
+  try {
+    await sequelize.models.user.update(userUpdates, { where: { id: req.user.id } });
+  } catch (err) {
+    return res.status(400).json({ message: err.message });
+  }
 
   return res.json({ ok: true });
 }
