@@ -20,10 +20,6 @@ module.exports = (sequelize) => {
         allowNull: true,
         type: DataTypes.STRING,
       },
-      deviceToken: {
-        allowNull: true,
-        type: DataTypes.STRING,
-      },
       age: {
         allowNull: true,
         type: DataTypes.INTEGER,
@@ -34,7 +30,7 @@ module.exports = (sequelize) => {
         validate: {
           customValidator: (value) => {
             const enums = ["male", "female", "other"];
-            if (!enums.includes(value)) {
+            if (value && !enums.includes(value)) {
               throw new Error(value + " is not a valid gender");
             }
           },
