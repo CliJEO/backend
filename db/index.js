@@ -7,6 +7,7 @@ const modelDefiners = [
   require("./models/response.model"),
   require("./models/user.model"),
   require("./models/admin.model"),
+  require("./models/fcmToken.model"),
 ];
 
 for (const modelDefiner of modelDefiners) {
