@@ -307,3 +307,44 @@ all parameters are optional
 
 - /media/filename with userToken
 - /media/filename/admin with adminToken
+
+## Notification Endpoints
+
+<table>
+<tr>
+<th>Endpoint</th>
+<th>Description</th>
+<th>Auth</th>
+<th>Body</th>
+<th>Response</th>
+</tr>
+<tr>
+<td>POST /fcm-token/save/admin</td>
+<td>Saves the fcm token for an admin</td>
+<td>Admin</td>
+<td>
+
+```js
+{
+  fcmToken: "fcmTokenHere";
+}
+```
+
+</td>
+<td>ok: true</td>
+</tr>
+<tr>
+<td>POST /fcm-token/save/user</td>
+<td>Saves the fcm token for a user</td>
+<td>User</td>
+<td>
+
+```js
+{
+  fcmToken: "fcmTokenHere";
+}
+```
+
+</td>
+<td>ok: true</td>
+</tr>
