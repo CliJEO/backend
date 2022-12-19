@@ -17,6 +17,7 @@ app.use("/admin", require("./routes/admin.route"));
 app.use("/query", require("./routes/query.route"));
 app.use("/media", require("./routes/media.route"));
 app.use("/respond", require("./routes/response.route"));
+app.use("/fcm-token", require("./routes/fcmToken.route"));
 
 /* Error handler middleware */
 app.use((err, req, res, next) => {
