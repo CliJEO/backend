@@ -6,6 +6,7 @@ const {
   ADMIN_NOTIF_TOPIC,
   USER_NOTIF_TOPIC,
 } = require("../config/notifications");
+const sequelize = require("../db");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -28,20 +29,25 @@ module.exports = {
       console.log("Error subscribing to topic:", error);
     }
   },
-  notifyUserAboutUpdate: async (query, userTokens) => {
-    const response = await admin.messaging().sendMulticast({ data: genUserNotification(query), tokens: userTokens });
+  notifyUserAboutUpdate: async (query, user) => {
+    const fcmTokens = await sequelize.models.fcmToken.findAll({
+      where: { userId: user.id },
+      attributes: ["token"],
+    });
+    const userTokensArr = fcmTokens.map((o) => o.token);
+
+    const response = await admin.messaging().sendMulticast({ data: genUserNotification(query), tokens: userTokensArr });
     if (response.failureCount > 0) {
       const failedTokens = [];
       response.responses.forEach((resp, index) => {
-        if (!resp.success) {
-          failedTokens.push(userTokens[index]);
+        if (!resp.success && resp.error.code == "messaging/registration-token-not-registered") {
+          failedTokens.push(fcmTokens[index]);
         }
       });
-      console.log("List of tokens that caused failures: " + failedTokens);
-      return failedTokens;
-      //TODO remove failed tokens from db
+      for (const t of failedTokens) {
+        t.destroy();
+      }
     }
-    return [];
   },
   notifyAllAdmins: async (query, isNewQuery) => {
     try {

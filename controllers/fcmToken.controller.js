@@ -1,9 +1,6 @@
 const sequelize = require("../db");
 const { registerNewToken } = require("../utils/notifHandler");
 
-//todo handle token receive errors
-//maybe add token deets in /user/me
-
 async function saveAdmin(req, res) {
   const fcmToken = req.body.fcmToken;
   if (!fcmToken) {
