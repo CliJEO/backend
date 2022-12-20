@@ -1,4 +1,5 @@
 const sequelize = require("../db");
+const { notifyUserAboutUpdate, notifyAllAdmins } = require("../utils/notifHandler");
 
 async function userCreate(req, res) {
   const queryId = req.params.queryId;
@@ -28,6 +29,8 @@ async function userCreate(req, res) {
     adminResponder: null,
   });
 
+  await notifyAllAdmins(query, false);
+
   return res.json({ ok: true });
 }
 
@@ -55,8 +58,13 @@ async function adminCreate(req, res) {
     adminResponder: req.admin.email,
   });
 
+  try {
+    await notifyUserAboutUpdate(query, req.user);
+  } catch (err) {
+    return res.json({ ok: false, warning: err.message });
+  }
+
   return res.json({ ok: true });
-  //todo notify users
 }
 
 module.exports = { userCreate, adminCreate };

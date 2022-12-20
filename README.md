@@ -271,7 +271,7 @@ all parameters are optional
 </td>
 </tr>
 <tr>
-<td>POST /admin/close/:id</td>
+<td>POST query/admin/close/:id</td>
 <td>An admin can close an open query</td>
 <td>Admin</td>
 <td>Nothing</td>
@@ -299,7 +299,16 @@ all parameters are optional
 <td>A user can respond to an open query</td>
 <td>User</td>
 <td>same as above</td>
-<td>ok:true</td>
+<td>
+
+```js
+{
+  ok: false/true,
+  warning: "warning message if ok is false (when notifying the user fails)"
+}
+```
+
+</td>
 </tr>
 </table>
 

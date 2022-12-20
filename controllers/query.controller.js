@@ -1,5 +1,6 @@
 const sequelize = require("../db");
 const unlinkAsync = require("util").promisify(require("fs").unlink);
+const { notifyAllAdmins } = require("../utils/notifHandler");
 
 async function create(req, res) {
   const user = req.user;
@@ -32,6 +33,7 @@ async function create(req, res) {
     return res.status(500).json({ message: err.message });
   }
 
+  await notifyAllAdmins(query, true);
   return res.json({ ok: true });
 }
 
