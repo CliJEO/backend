@@ -146,18 +146,18 @@ all parameters are optional
 <th>Response</th>
 </tr>
 <tr>
-<td>POST /create</td>
+<td>POST /query/create</td>
 <td>user posts a query</td>
 <td>User</td>
 <td>
 
-**NOTE**: The body here is `form/multipart`, not json
+**NOTE**: The body here is `form/multipart`, not json.
 
 ```js
 {
   title: "string <= 50chars", //~10 words
   content: "string <= 1250 characters", //~ 250 words
-  files: [all the files that need to be uploaded]
+  files: [all the files that need to be uploaded(max 4 files of 50 mb each)]
 }
 ```
 
@@ -184,7 +184,8 @@ all parameters are optional
   },
   "media": [
     {
-      "url": "/media/1670490412464.png"
+      "url": "/media/1670490412464.png",
+      "mimetype": "image/png"3
     }
   ],
   "responses": [

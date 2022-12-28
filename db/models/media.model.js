@@ -8,6 +8,11 @@ module.exports = (sequelize) => {
         primaryKey: true,
         type: DataTypes.STRING,
       },
+      mimetype: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "file",
+      },
       // queryId
     },
     {
