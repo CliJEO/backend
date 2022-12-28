@@ -25,7 +25,7 @@ async function create(req, res) {
         userId: user.id,
         title,
         content,
-        media: files.map(({ filename }) => ({ filename })),
+        media: files.map(({ filename, mimetype }) => ({ filename, mimetype })),
       },
       { include: [sequelize.models.media] }
     );
@@ -50,7 +50,7 @@ async function close(req, res) {
 async function getOne(req, res) {
   const query = await sequelize.models.query.findByPk(req.params.id, {
     include: [
-      { model: sequelize.models.media, attributes: ["filename"] },
+      { model: sequelize.models.media, attributes: ["filename", "mimetype"] },
       { model: sequelize.models.user, attributes: ["name", "profilePicture"] },
       {
         model: sequelize.models.response,

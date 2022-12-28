@@ -10,11 +10,6 @@ module.exports = (sequelize) => {
       },
       //userId [belongsTo User],
       //adminId [belongsTo Admin]
-      stale: {
-        type: DataTypes.BOOLEAN,
-        default: false,
-        allowNull: false,
-      },
       timestamp: {
         type: DataTypes.DATE,
         allowNull: false,
