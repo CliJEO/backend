@@ -1,6 +1,7 @@
 const sequelize = require("../db");
 const unlinkAsync = require("util").promisify(require("fs").unlink);
 const { notifyAllAdmins } = require("../utils/notifHandler");
+const mime = require("mime-types");
 
 async function create(req, res) {
   const user = req.user;
@@ -50,7 +51,7 @@ async function close(req, res) {
 async function getOne(req, res) {
   const query = await sequelize.models.query.findByPk(req.params.id, {
     include: [
-      { model: sequelize.models.media, attributes: ["filename", "mimetype"] },
+      { model: sequelize.models.media, attributes: ["filename"] },
       { model: sequelize.models.user, attributes: ["name", "profilePicture"] },
       {
         model: sequelize.models.response,
@@ -68,7 +69,13 @@ async function getOne(req, res) {
     return res.status(400).json({ message: "Cannot access this query" });
   }
 
-  return res.json(query.get({ plain: true }));
+  const queryObj = query.get({ plain: true });
+
+  queryObj.media = queryObj.media.map((m) => ({
+    url: `/media/${m.filename}`,
+    mimetype: mime.lookup(m.filename) + " file",
+  }));
+  return res.json(queryObj);
 }
 
 async function getPending(req, res) {

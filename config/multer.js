@@ -22,6 +22,7 @@ const allowedExtensions = [
   ".doc",
   ".docx",
   ".odt",
+  ".m4a",
 ];
 
 const fileFilter = (req, file, cb) => {
