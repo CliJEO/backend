@@ -185,7 +185,7 @@ all parameters are optional
   "media": [
     {
       "filename": "1670490412464.png",
-      "mimetype": "image/png file"
+      "filetype": "image/audio/video/document"
     }
   ],
   "responses": [
