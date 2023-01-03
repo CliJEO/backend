@@ -18,4 +18,4 @@ const map = {
   ".odt": "document",
 };
 
-module.exports.default = (filename) => map[path.extname(filename)];
+module.exports = (filename) => map[path.extname(filename)];
