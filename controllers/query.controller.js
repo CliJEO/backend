@@ -71,10 +71,7 @@ async function getOne(req, res) {
 
   const queryObj = query.get({ plain: true });
 
-  queryObj.media = queryObj.media.map((m) => ({
-    url: `/media/${m.filename}`,
-    mimetype: mime.lookup(m.filename) + " file",
-  }));
+  queryObj.media.forEach((m) => (m.mimetype = mime.lookup(m.filename) + " file"));
   return res.json(queryObj);
 }
 

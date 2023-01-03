@@ -42,7 +42,7 @@ async function adminCreate(req, res) {
     return res.status(400).json({ message: "Invalid response to query" });
   }
 
-  const query = await sequelize.models.query.findByPk(queryId);
+  const query = await sequelize.models.query.findByPk(queryId, { raw: true });
 
   if (!query) {
     return res.status(400).json({ message: "Invalid query id" });
@@ -59,7 +59,7 @@ async function adminCreate(req, res) {
   });
 
   try {
-    await notifyUserAboutUpdate(query, req.user);
+    await notifyUserAboutUpdate(query, { id: query.userId });
   } catch (err) {
     return res.json({ ok: false, warning: err.message });
   }
