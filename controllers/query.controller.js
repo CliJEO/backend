@@ -1,7 +1,7 @@
 const sequelize = require("../db");
 const unlinkAsync = require("util").promisify(require("fs").unlink);
 const { notifyAllAdmins } = require("../utils/notifHandler");
-const mime = require("mime-types");
+const mapFileToType = require("../utils/fileMapper");
 
 async function create(req, res) {
   const user = req.user;
@@ -71,7 +71,7 @@ async function getOne(req, res) {
 
   const queryObj = query.get({ plain: true });
 
-  queryObj.media.forEach((m) => (m.mimetype = mime.lookup(m.filename) + " file"));
+  queryObj.media.forEach((m) => (m.filetype = mapFileToType(m.filename)));
   return res.json(queryObj);
 }
 

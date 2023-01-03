@@ -18,6 +18,7 @@ const allowedExtensions = [
   ".aac",
   ".ogg",
   ".webm",
+  ".webp",
   ".pdf",
   ".doc",
   ".docx",
