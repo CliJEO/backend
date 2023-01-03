@@ -180,11 +180,11 @@ all parameters are optional
   "timestamp": "2022-12-12T08:30:57.834Z",
   "user": {
     "name": "Doubtful Baby",
-    "avatar": "https://lh3.googleusercontent.com/a/AEdFTp41ujok5WxbmKFWDZOWpmbb9xcXcL_4ixUD8pbfnQ=s96-c"
+    "profilePicture": "https://lh3.googleusercontent.com/a/AEdFTp41ujok5WxbmKFWDZOWpmbb9xcXcL_4ixUD8pbfnQ=s96-c"
   },
   "media": [
     {
-      "url": "/media/1670490412464.png",
+      "filename": "1670490412464.png",
       "mimetype": "image/png file"
     }
   ],
@@ -194,7 +194,7 @@ all parameters are optional
       "timestamp": "2022-12-12T08:30:57.834Z",
       "admin": {
         "name": "Cliford Joshy",
-        "avatar": "https://lh3.googleusercontent.com/a/AEdFTp41ujok5WxbmKFWDZOWpmbb9xcXcL_4ixUD8pbfnQ=s96-c"
+        "profilePicture": "https://lh3.googleusercontent.com/a/AEdFTp41ujok5WxbmKFWDZOWpmbb9xcXcL_4ixUD8pbfnQ=s96-c"
       }
     },
     {
@@ -231,7 +231,7 @@ all parameters are optional
     "timestamp": "2022-12-12T08:30:57.834Z",
     "user": {
       "name": "Cliford Joshy",
-      "avatar": "https://lh3.googleusercontent.com/a/AEdFTp41ujok5WxbmKFWDZOWpmbb9xcXcL_4ixUD8pbfnQ=s96-c"
+      "profilePicture": "https://lh3.googleusercontent.com/a/AEdFTp41ujok5WxbmKFWDZOWpmbb9xcXcL_4ixUD8pbfnQ=s96-c"
     }
   }
 ]
