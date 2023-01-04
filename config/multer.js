@@ -1,10 +1,11 @@
 const multer = require("multer");
 const path = require("path");
+const { nanoid } = require("nanoid");
 
 const storage = multer.diskStorage({
   destination: process.env.MEDIA_DIR,
   filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname)); //Appending extension
+    cb(null, Date.now() + nanoid(5) + path.extname(file.originalname)); //Appending extension
   },
 });
 
