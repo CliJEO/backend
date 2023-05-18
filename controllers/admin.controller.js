@@ -64,20 +64,34 @@ async function update(req, res) {
 
 async function me(req, res) {
 
-  const pendingQueries = await sequelize.models.query.findAll({
-    attributes: ["id", "title", "timestamp", "content", "closed"],
+  const activeQueries = await sequelize.models.query.findAll({
+    attributes: ["id", "title", "timestamp", "content"],
+    where: { closed: false },
     order: [["timestamp", "DESC"]],
     raw: true,
     include: { model: sequelize.models.user, attributes: ["name", "profilePicture"] },
   });
 
-  for (const query of pendingQueries) {
+  const archivedQueries = await sequelize.models.query.findAll({
+    attributes: ["id", "title", "timestamp", "content"],
+    where: { closed: true },
+    order: [["timestamp", "DESC"]],
+    raw: true,
+    include: { model: sequelize.models.user, attributes: ["name", "profilePicture"] },
+  });
+
+  for (const query of activeQueries) {
+    query.responseCount = await sequelize.models.response.count({ where: { queryId: query.id } });
+  }
+
+  for (const query of archivedQueries) {
     query.responseCount = await sequelize.models.response.count({ where: { queryId: query.id } });
   }
 
   const userObj = {
     ...req.admin,
-    queries: pendingQueries
+    activeQueries: activeQueries,
+    archivedQueries: archivedQueries
   };
   return res.json(userObj);
 }
