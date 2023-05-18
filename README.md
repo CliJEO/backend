@@ -130,6 +130,31 @@ all parameters are optional
 <td>same as above</td>
 <td>same as above</td>
 </tr>
+
+<tr>
+<td>GET /admin/userDetails/:id</td>
+<td>Allows an admin user to view any users details based on their ID</td>
+<td>Admin</td>
+<td>
+none
+</td>
+<td>
+
+```js
+{
+  "id": "108102370237663039357",
+  "name": "Joel Mathew",
+  "email": "joelmathewcherian@gmail.com",
+  "profilePicture": "https://lh3.googleusercontent.com/a/AEdFTp5L-rlPVOVOFhelIaTGDxMWwjbiqESmMBeaqcwL3w=s96-c",
+  "age": 21,
+  "gender": "male",
+  "phoneNumber": "941234801",
+  "location": "scscdsvsdvdsv"
+}
+```
+
+</td>
+</tr>
 </table>
 
 - #### The admin name will be automaticallly set to the name associated to the email if not explicitly provided. The profile picture will be automatically taken from the google account profile pic.
@@ -180,7 +205,8 @@ all parameters are optional
   "timestamp": "2022-12-12T08:30:57.834Z",
   "user": {
     "name": "Doubtful Baby",
-    "profilePicture": "https://lh3.googleusercontent.com/a/AEdFTp41ujok5WxbmKFWDZOWpmbb9xcXcL_4ixUD8pbfnQ=s96-c"
+    "profilePicture": "https://lh3.googleusercontent.com/a/AEdFTp41ujok5WxbmKFWDZOWpmbb9xcXcL_4ixUD8pbfnQ=s96-c",
+    "id": "108102370237663039357"
   },
   "media": [
     {
@@ -240,6 +266,29 @@ all parameters are optional
 </td>
 </tr>
 <tr>
+<td>GET /admin/archived</td>
+<td>get overview of all closed queries sorted by most recent first</td>
+<td>Admin</td>
+<td>NA</td>
+<td>
+
+```json
+[
+  {
+    "id": 5,
+    "title": "Bruhtacular the second",
+    "timestamp": "2022-12-12T08:30:57.834Z",
+    "user": {
+      "name": "Cliford Joshy",
+      "profilePicture": "https://lh3.googleusercontent.com/a/AEdFTp41ujok5WxbmKFWDZOWpmbb9xcXcL_4ixUD8pbfnQ=s96-c"
+    }
+  }
+]
+```
+
+</td>
+</tr>
+<tr>
 <td>GET /user/me</td>
 <td>get all the details about a user including queries</td>
 <td>User</td>
@@ -265,6 +314,45 @@ all parameters are optional
       "timestamp": "2022-12-12T08:30:57.834Z",
       "responseCount": 0
     }
+  ]
+}
+```
+
+</td>
+</tr>
+<tr>
+<td>GET /admin/me</td>
+<td>get all the details about a admin including active/archived queries</td>
+<td>Admin</td>
+<td>NA</td>
+<td>
+
+```json
+{
+  "email": "joelmathewcherian@gmail.com",
+  "name": "Hoel Mathew Cherian",
+  "profilePicture": "https://lh3.googleusercontent.com/a/AGNmyxbThtbXk0MCR_qFzKc7eiVuiqAOioOm0lrgnKLFUA=s96-c",
+  "activeQueries": [
+    {
+      "id": 20,
+      "title": "cliford hostage, ransom required",
+      "timestamp": "2023-01-03T14:00:26.093Z",
+      "content": "Dear Sir cliford is held hostage and a random of 10,00,000 is required. Proof is attached below.",
+      "user.name": "Joel Mathew",
+      "user.profilePicture": "https://lh3.googleusercontent.com/a/AEdFTp5L-rlPVOVOFhelIaTGDxMWwjbiqESmMBeaqcwL3w=s96-c",
+      "responseCount": 0
+    },
+  ],
+  "archivedQueries": [
+    {
+      "id": 29,
+      "title": "testing the progress",
+      "timestamp": "2023-01-04T15:58:23.777Z",
+      "content": "hehe",
+      "user.name": "Joel Mathew",
+      "user.profilePicture": "https://lh3.googleusercontent.com/a/AEdFTp5L-rlPVOVOFhelIaTGDxMWwjbiqESmMBeaqcwL3w=s96-c",
+      "responseCount": 2
+    },
   ]
 }
 ```
