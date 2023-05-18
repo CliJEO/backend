@@ -51,7 +51,7 @@ async function getOne(req, res) {
   const query = await sequelize.models.query.findByPk(req.params.id, {
     include: [
       { model: sequelize.models.media, attributes: ["filename"] },
-      { model: sequelize.models.user, attributes: ["name", "profilePicture"] },
+      { model: sequelize.models.user, attributes: ["name", "profilePicture", "id"] },
       {
         model: sequelize.models.response,
         attributes: ["content", "timestamp"],

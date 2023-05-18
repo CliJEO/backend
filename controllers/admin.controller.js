@@ -76,8 +76,6 @@ async function me(req, res) {
     query.responseCount = await sequelize.models.response.count({ where: { queryId: query.id } });
   }
 
-  console.log(pendingQueries);
-
   const userObj = {
     ...req.admin,
     queries: pendingQueries
@@ -85,4 +83,17 @@ async function me(req, res) {
   return res.json(userObj);
 }
 
-module.exports = { login, create, update, me };
+async function getUser(req, res) {
+
+  const user = await sequelize.models.user.findByPk(req.params.id)
+
+  if (!(user && (req.admin))) {
+    return res.status(400).json({ message: "Cannot access this query" });
+  }
+
+  const userObj = user.get({ plain: true });
+  return res.json(userObj);
+}
+
+
+module.exports = { login, create, update, me, getUser };
