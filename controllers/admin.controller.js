@@ -65,8 +65,7 @@ async function update(req, res) {
 async function me(req, res) {
 
   const pendingQueries = await sequelize.models.query.findAll({
-    attributes: ["id", "title", "timestamp", "content"],
-    where: { closed: false },
+    attributes: ["id", "title", "timestamp", "content", "closed"],
     order: [["timestamp", "DESC"]],
     raw: true,
     include: { model: sequelize.models.user, attributes: ["name", "profilePicture"] },

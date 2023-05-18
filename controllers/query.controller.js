@@ -84,4 +84,15 @@ async function getPending(req, res) {
   return res.json(pendingQueries.map((q) => q.get({ plain: true })));
 }
 
-module.exports = { create, close, getOne, getPending };
+async function getArchived(req, res) {
+  const archivedQueries = await sequelize.models.query.findAll({
+    attributes: ["id", "title", "timestamp"],
+    where: { closed: true },
+    order: [["timestamp", "DESC"]],
+    include: { model: sequelize.models.user, attributes: ["name", "profilePicture"] },
+  });
+
+  return res.json(archivedQueries.map((q) => q.get({ plain: true })));
+}
+
+module.exports = { create, close, getOne, getPending, getArchived };
