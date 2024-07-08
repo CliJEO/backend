@@ -62,4 +62,51 @@ async function update(req, res) {
   return res.json({ ok: true });
 }
 
-module.exports = { login, create, update };
+async function me(req, res) {
+
+  const activeQueries = await sequelize.models.query.findAll({
+    attributes: ["id", "title", "timestamp", "content"],
+    where: { closed: false },
+    order: [["timestamp", "DESC"]],
+    raw: true,
+    include: { model: sequelize.models.user, attributes: ["name", "profilePicture"] },
+  });
+
+  const archivedQueries = await sequelize.models.query.findAll({
+    attributes: ["id", "title", "timestamp", "content"],
+    where: { closed: true },
+    order: [["timestamp", "DESC"]],
+    raw: true,
+    include: { model: sequelize.models.user, attributes: ["name", "profilePicture"] },
+  });
+
+  for (const query of activeQueries) {
+    query.responseCount = await sequelize.models.response.count({ where: { queryId: query.id } });
+  }
+
+  for (const query of archivedQueries) {
+    query.responseCount = await sequelize.models.response.count({ where: { queryId: query.id } });
+  }
+
+  const userObj = {
+    ...req.admin,
+    activeQueries: activeQueries,
+    archivedQueries: archivedQueries
+  };
+  return res.json(userObj);
+}
+
+async function getUser(req, res) {
+
+  const user = await sequelize.models.user.findByPk(req.params.id)
+
+  if (!(user && (req.admin))) {
+    return res.status(400).json({ message: "Cannot access this query" });
+  }
+
+  const userObj = user.get({ plain: true });
+  return res.json(userObj);
+}
+
+
+module.exports = { login, create, update, me, getUser };

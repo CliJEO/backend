@@ -6,6 +6,7 @@ const multer = require("../config/multer");
 
 // Admin Endpoints
 router.get("/admin/pending", adminAuth, queryController.getPending);
+router.get("/admin/archived", adminAuth, queryController.getArchived);
 router.get("/:id/admin", adminAuth, queryController.getOne);
 router.post("/admin/close/:id", adminAuth, queryController.close);
 
